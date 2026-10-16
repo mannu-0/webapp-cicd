@@ -54,9 +54,9 @@ pipeline {
             steps {
                 sh '''
                     for i in $(seq 1 15); do
-                        if docker exec webapp-cicd-frontend wget -qO- http://localhost/health >/dev/null; then
+                        if docker exec webapp-cicd-frontend wget -qO- http://127.0.0.1/health >/dev/null; then
                             echo "TaskFlow health check passed"
-                            docker exec webapp-cicd-frontend wget -qO- http://localhost/api/tasks
+                            docker exec webapp-cicd-frontend wget -qO- http://127.0.0.1/api/tasks
                             exit 0
                         fi
                         sleep 2
