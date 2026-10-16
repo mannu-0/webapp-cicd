@@ -17,11 +17,15 @@ pipeline {
         stage('Backend Tests') {
             steps {
                 sh '''
+                    docker build 
+                        -f backend/Dockerfile.test \
+                        -t webapp-cicd-backend-test:$BUILD_NUMBER \
+                        ./backend
+                        
+
                     docker run --rm \
-                        -v "$WORKSPACE/backend:/app" \
-                        -w /app \
-                        node:22-alpine \
-                        npm test
+                        webapp-cicd-backend-test:$BUILD_NUMBER
+
                 '''
             }
         }
