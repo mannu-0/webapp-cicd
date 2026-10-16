@@ -63,6 +63,10 @@ app.patch("/api/tasks/:id", (req, res) => {
   res.json(task);
 });
 
-app.listen(PORT, "0.0.0.0", () => {
-  console.log(`Task Manager API running on port ${PORT}`);
-});
+if (require.main === module) {
+  app.listen(PORT, "0.0.0.0", () => {
+    console.log(`Task Manager API running on port ${PORT}`);
+  });
+}
+
+module.exports = { app };

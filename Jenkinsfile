@@ -14,6 +14,18 @@ pipeline {
             }
         }
 
+        stage('Backend Tests') {
+            steps {
+                sh '''
+                    docker run --rm \
+                        -v "$WORKSPACE/backend:/app" \
+                        -w /app \
+                        node:22-alpine \
+                        npm test
+                '''
+            }
+        }
+
         stage('Build Backend Image') {
             steps {
                 sh 'docker build -t "$BACKEND_IMAGE" ./backend'
