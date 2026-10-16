@@ -17,15 +17,8 @@ pipeline {
         stage('Backend Tests') {
             steps {
                 sh '''
-                    docker build 
-                        -f backend/Dockerfile.test \
-                        -t webapp-cicd-backend-test:$BUILD_NUMBER \
-                        ./backend
-                        
-
-                    docker run --rm \
-                        webapp-cicd-backend-test:$BUILD_NUMBER
-
+                    docker build -f backend/Dockerfile.test -t webapp-cicd-backend-test:$BUILD_NUMBER ./backend
+                    docker run --rm webapp-cicd-backend-test:$BUILD_NUMBER
                 '''
             }
         }
@@ -45,8 +38,7 @@ pipeline {
         stage('Deploy TaskFlow') {
             steps {
                 sh '''
-                    docker network inspect "$NETWORK" >/dev/null 2>&1 || \
-                        docker network create "$NETWORK"
+                    docker network inspect "$NETWORK" >/dev/null 2>&1 || docker network create "$NETWORK"
 
                     docker rm -f webapp-cicd-frontend webapp-cicd-backend 2>/dev/null || true
 
